@@ -1,0 +1,64 @@
+<!--<div>{{game | json}}</div>-->
+
+<mat-toolbar color="primary">
+  <span>Darts Scorekeeper</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>edit</mat-icon>
+      <span>Nieuwe game</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+<mat-card>
+  <mat-card-title>Setup {{ message}}</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="formMain" class="example-form">
+      <mat-card>
+        <mat-card-title class="mat-card-title--sub">Spelers</mat-card-title>
+        <div formArrayName="spelers" *ngFor="let speler of spelers.controls; let i=index;">
+          <div formGroupName="{{i}}">
+            <mat-form-field>
+              <input matInput placeholder="Naam" formControlName="naam">
+            </mat-form-field>
+            <button mat-icon-button color="primary" (click)="deleteSpeler(i)" *ngIf="spelers.length > 1">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <mat-error *ngIf="isInvalidControl('spelers.'+i+'.naam')">
+              {{ getControlErrors('spelers.'+i+'.naam', 'naam') }}
+            </mat-error>
+          </div>
+        </div>
+        <mat-card-footer class="button-row">
+          <button mat-icon-button color="primary" (click)="addSpeler()" *ngIf="spelers.length < 5">
+            <mat-icon aria-label="Voeg speler toe">add</mat-icon>
+          </button>
+        </mat-card-footer>
+      </mat-card>
+      <mat-card>
+        <mat-card-title class="mat-card-title--sub">Opties</mat-card-title>
+        <mat-card-content>
+          <mat-form-field>
+            <mat-select placeholder="Aantal legs" formControlName="legs">
+              <mat-option *ngFor="let legOption of legsOptions" [value]="legOption.value">
+                {{ legOption.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-card-title class="mat-card-title--sub2">Pascal hack</mat-card-title>
+          <mat-radio-group class="example-radio-group" formControlName="pascalHack">
+            <mat-radio-button class="example-radio-button" *ngFor="let pascalHackOtion of pascalHacks" [value]="pascalHackOtion">
+              {{pascalHackOtion}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </mat-card-content>
+        <mat-card-actions class="mat-card-actions--buttons">
+          <button mat-raised-button color="primary" (click)="next()">Game on !</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </mat-card-content>
+</mat-card>
