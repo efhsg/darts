@@ -1,0 +1,33 @@
+<mat-accordion class="example-headers-align">
+  <div *ngFor="let speler of game.spelers; let i = index">
+    <mat-expansion-panel [expanded]="actieveSpeler === i" hideToggle="true" [disabled]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{speler.naam}}</mat-panel-title>
+        <mat-panel-description>{{speler.puntenOver}}</mat-panel-description>
+      </mat-expansion-panel-header>
+      <div *ngIf="!gameAfgelopen" class="score">Score: {{keysPressed}}</div>
+      <div *ngIf="gameAfgelopen">Gewonnen!</div>
+    </mat-expansion-panel>
+  </div>
+</mat-accordion>
+<mat-card *ngIf="!gameAfgelopen">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <div fxShow="false" fxShow.gt-sm="true" fxFlex.md="10%" fxFlex.gt-md="20%"></div>
+    <div fxShow="true" fxFlex="100%" fxFlex.md="80%" fxFlex.gt-md="60%">
+      <mat-grid-list cols="3" rowHeight="100px" *ngFor="let keypadRow of keypad;let rowIndex = index">
+        <mat-grid-tile *ngFor="let keypadCol of keypadRow; let colIndex = index">
+          <button mat-fab color="primary" (click)="pressKeypad(rowIndex * keypadRow.length + colIndex + 1)" class="keypad">
+            <mat-icon *ngIf="keypadCol.icon">{{keypadCol.icon}}</mat-icon>
+            <span
+              *ngIf="!keypadCol.icon">{{(rowIndex * keypadRow.length + colIndex + 1) < 10 ?
+              (rowIndex * keypadRow.length + colIndex + 1) :
+              0}}
+            </span>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+    <div fxShow="false" fxShow.gt-sm="true" fxFlex.md="10%" fxFlex.gt-md="20%"></div>
+  </div>
+</mat-card>
+

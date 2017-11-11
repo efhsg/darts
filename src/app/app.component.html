@@ -1,9 +1,23 @@
 <div fxLayout="row" fxLayoutAlign="center center">
-  <div fxShow="false" fxShow.gt-sm="true" fxFlex.md="10%" fxFlex.gt-md="20%"></div>
-  <div fxShow="true" fxFlex="100%" fxFlex.md="80%" fxFlex.gt-md="60%">
-    <app-setup [message]="message" [game]="game"></app-setup>
+  <div fxShow="false" fxShow.gt-sm="true" fxFlex.md="25%" fxFlex.gt-md="35%"></div>
+  <div fxShow="true" fxFlex="100%" fxFlex.md="50%" fxFlex.gt-md="30%">
+    <mat-toolbar color="primary">
+      <span>Darts Scorekeeper {{title ? ' - ' + title : ''}}</span>
+      <span class="example-spacer"></span>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="nieuwSpel()">
+          <mat-icon>edit</mat-icon>
+          <span>Nieuwe game</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+    <app-setup *ngIf="showSetup()" [game]="game" (done)="setupDone()"></app-setup>
+    <app-spel *ngIf="showSpel()" [game]="game"></app-spel>
   </div>
-  <div fxShow="false" fxShow.gt-sm="true" fxFlex.md="10%" fxFlex.gt-md="20%"></div>
+  <div fxShow="false" fxShow.gt-sm="true" fxFlex.md="50%" fxFlex.gt-md="35%"></div>
 </div>
 
 
