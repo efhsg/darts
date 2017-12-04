@@ -18,9 +18,9 @@ export class SetupComponent implements OnInit {
   private aantalSpelersDefault = 2;
 
   protected legsOptions = [
-    {value: 1, viewValue: 1},
-    {value: 3, viewValue: 3},
-    {value: 5, viewValue: 5}
+    {value: 1},
+    {value: 3},
+    {value: 5}
   ];
 
   protected validationMessages = {
@@ -40,6 +40,7 @@ export class SetupComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.game.legsOpties);
     this.buildForm();
     this.setFormValues();
     this.addFormEvents();
@@ -50,7 +51,8 @@ export class SetupComponent implements OnInit {
       legs: [1],
       spelers: this.formBuilder.array([]
       ),
-      pascalHack: true,
+      tijdslimiet: [15],
+      willekeurigeVolgorde: true,
     });
   }
 
@@ -62,11 +64,6 @@ export class SetupComponent implements OnInit {
   }
 
   private addFormEvents() {
-    this.formMain.get('pascalHack').valueChanges.subscribe(() => {
-      setTimeout(() => {
-        this.formMain.get('pascalHack').setValue(true, {emitEvent: false});
-      }, 500);
-    });
   }
 
   private addSpelers() {
@@ -126,6 +123,9 @@ export class SetupComponent implements OnInit {
       this.spelers.controls.forEach((formControl) => {
         this.game.spelers.push(new Speler(formControl.value.naam));
       });
+      if (this.formMain.get('willekeurigeVolgorde').value) {
+        this.game.shuffleSpelers();
+      }
       this.done.emit();
     } else {
       this.showFormerrors();

@@ -16,17 +16,13 @@ export class AppComponent implements OnInit {
   protected game: Game;
 
   ngOnInit(): void {
-
-    this.game = <Game>{
-      legs: 1,
-      spelers: [
-        new Speler('Speler 1'),
-        new Speler('Speler 2')
-      ]
-    };
-
+    this.game = new Game();
+    this.game.spelers = [
+      new Speler('Speler 1'),
+      new Speler('Speler 2')
+    ];
     this.nieuwSpel();
-    }
+  }
 
   protected showSetup(): boolean {
     return this.spelstatus === Spelstatus.setup;

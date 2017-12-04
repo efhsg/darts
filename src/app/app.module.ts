@@ -20,12 +20,14 @@ import {
 } from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SpelComponent} from './spel/spel.component';
+import { TimerComponent } from './timer/timer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SetupComponent,
     SpelComponent,
+    TimerComponent,
   ],
   imports: [
     BrowserModule,
