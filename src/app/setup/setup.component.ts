@@ -3,6 +3,7 @@ import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from '@a
 import {isNullOrUndefined} from 'util';
 import {Game} from '../models/game';
 import {Speler} from '../models/speler';
+import {OutshotCalculatorAbstract} from '../services/interfaces/outshot.calculator';
 
 @Component({
   selector: 'app-setup',
@@ -36,11 +37,17 @@ export class SetupComponent implements OnInit {
     }
   }
 
-  constructor(protected formBuilder: FormBuilder) {
+  constructor(protected formBuilder: FormBuilder,
+              protected outshotCalculator: OutshotCalculatorAbstract) {
   }
 
   ngOnInit() {
-    console.log(this.game.legsOpties);
+    if (isNullOrUndefined(this.game.spelers)) {
+      this.game.spelers = [
+        new Speler(this.outshotCalculator, 'Speler 1'),
+        new Speler(this.outshotCalculator, 'Speler 2')
+      ];
+    }
     this.buildForm();
     this.setFormValues();
     this.addFormEvents();
@@ -121,7 +128,7 @@ export class SetupComponent implements OnInit {
       this.game.legs = this.formMain.get('legs').value;
       this.game.spelers = [];
       this.spelers.controls.forEach((formControl) => {
-        this.game.spelers.push(new Speler(formControl.value.naam));
+        this.game.spelers.push(new Speler(this.outshotCalculator, formControl.value.naam));
       });
       if (this.formMain.get('willekeurigeVolgorde').value) {
         this.game.shuffleSpelers();

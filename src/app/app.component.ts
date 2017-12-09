@@ -17,10 +17,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.game = new Game();
-    this.game.spelers = [
-      new Speler('Speler 1'),
-      new Speler('Speler 2')
-    ];
     this.nieuwSpel();
   }
 

@@ -8,7 +8,8 @@ import {
   MatButtonModule,
   MatCardModule,
   MatExpansionModule,
-  MatFormFieldModule, MatGridListModule,
+  MatFormFieldModule,
+  MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatMenuModule,
@@ -20,7 +21,9 @@ import {
 } from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SpelComponent} from './spel/spel.component';
-import { TimerComponent } from './timer/timer.component';
+import {TimerComponent} from './timer/timer.component';
+import {OutshotCalculatorAbstract} from './services/interfaces/outshot.calculator';
+import {OutshotCalculator} from './services/implementations/outshot.calculator';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,9 @@ import { TimerComponent } from './timer/timer.component';
     MatInputModule, MatFormFieldModule, MatSelectModule, MatRadioModule, MatSnackBarModule, MatSlideToggleModule,
     MatExpansionModule, MatGridListModule
   ],
-  providers: [],
+  providers: [
+    {provide: OutshotCalculatorAbstract, useClass: OutshotCalculator},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
