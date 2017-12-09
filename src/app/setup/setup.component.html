@@ -26,9 +26,9 @@
         <mat-card-title class="mat-card-title--sub">Opties</mat-card-title>
         <mat-card-content>
           <mat-form-field>
-            <mat-select placeholder="Aantal legs" formControlName="legs">
-              <mat-option *ngFor="let legOption of game.legsOpties" [value]="legOption" >
-                {{ legOption }}
+            <mat-select placeholder="Aantal punten" formControlName="puntenPerGame">
+              <mat-option *ngFor="let puntenPerGame of game.puntenPerGameOpties" [value]="puntenPerGame" >
+                {{ puntenPerGame }}
               </mat-option>
             </mat-select>
           </mat-form-field>

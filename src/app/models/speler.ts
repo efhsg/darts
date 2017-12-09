@@ -4,9 +4,9 @@ export class Speler {
   private _naam: string;
   private _puntenOver: number;
 
-  constructor(private outshotCalculator: OutshotCalculatorAbstract, naam?: string) {
+  constructor(private outshotCalculator: OutshotCalculatorAbstract, puntenOver: number, naam?: string) {
     this.naam = naam ? naam : '';
-    this.puntenOver = 501;
+    this.puntenOver = puntenOver;
   }
 
   get naam(): string {

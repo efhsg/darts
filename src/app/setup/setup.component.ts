@@ -18,10 +18,9 @@ export class SetupComponent implements OnInit {
   protected formMain: FormGroup;
   private aantalSpelersDefault = 2;
 
-  protected legsOptions = [
-    {value: 1},
-    {value: 3},
-    {value: 5}
+  protected puntenPerGame = [
+    {value: 301},
+    {value: 101},
   ];
 
   protected validationMessages = {
@@ -44,8 +43,8 @@ export class SetupComponent implements OnInit {
   ngOnInit() {
     if (isNullOrUndefined(this.game.spelers)) {
       this.game.spelers = [
-        new Speler(this.outshotCalculator, 'Speler 1'),
-        new Speler(this.outshotCalculator, 'Speler 2')
+        new Speler(this.outshotCalculator, this.game.puntenPerGame, 'Speler 1'),
+        new Speler(this.outshotCalculator, this.game.puntenPerGame, 'Speler 2')
       ];
     }
     this.buildForm();
@@ -55,7 +54,7 @@ export class SetupComponent implements OnInit {
 
   protected buildForm(): void {
     this.formMain = this.formBuilder.group({
-      legs: [1],
+      puntenPerGame: [501],
       spelers: this.formBuilder.array([]
       ),
       tijdslimiet: [15],
@@ -65,8 +64,8 @@ export class SetupComponent implements OnInit {
 
   private setFormValues() {
     this.addSpelers();
-    if (!isNullOrUndefined(this.game.legs)) {
-      this.formMain.patchValue({legs: this.game.legs});
+    if (!isNullOrUndefined(this.game.puntenPerGame)) {
+      this.formMain.patchValue({puntenPerGame: this.game.puntenPerGame});
     }
   }
 
@@ -125,10 +124,10 @@ export class SetupComponent implements OnInit {
 
   protected next(): void {
     if (this.formMain.valid) {
-      this.game.legs = this.formMain.get('legs').value;
+      this.game.puntenPerGame = this.formMain.get('puntenPerGame').value;
       this.game.spelers = [];
       this.spelers.controls.forEach((formControl) => {
-        this.game.spelers.push(new Speler(this.outshotCalculator, formControl.value.naam));
+        this.game.spelers.push(new Speler(this.outshotCalculator, this.game.puntenPerGame, formControl.value.naam));
       });
       if (this.formMain.get('willekeurigeVolgorde').value) {
         this.game.shuffleSpelers();

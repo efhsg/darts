@@ -2,9 +2,9 @@ import {Speler} from './speler';
 
 export class Game {
   public tijdslimietOpties: number[] = [10, 15, 20, 25, 30];
-  public legsOpties: number[] = [1, 3, 5];
+  public puntenPerGameOpties: number[] = [301, 501];
   public spelers: Speler[];
-  public legs: number;
+  public puntenPerGame: number;
   public tijdslimiet: number;
 
   public shuffleSpelers() {
