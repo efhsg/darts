@@ -18,11 +18,6 @@ export class SetupComponent implements OnInit {
   protected formMain: FormGroup;
   private aantalSpelersDefault = 2;
 
-  protected puntenPerGame = [
-    {value: 301},
-    {value: 101},
-  ];
-
   protected validationMessages = {
     'naam': {
       'required': 'Vul een naam in',
