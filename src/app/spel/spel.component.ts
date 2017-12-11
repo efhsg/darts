@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Game} from '../models/game';
 import {MatSnackBar} from '@angular/material';
 
@@ -10,6 +10,7 @@ import {MatSnackBar} from '@angular/material';
 export class SpelComponent implements OnInit {
 
   @Input() game: Game;
+  @Output() done = new EventEmitter();
   protected actieveSpeler = 0;
 
   protected keysPressed = '';
@@ -77,6 +78,7 @@ export class SpelComponent implements OnInit {
       this.volgendeSpeler();
     } else {
       this.gameAfgelopen = true;
+      this.done.emit();
     }
   }
 

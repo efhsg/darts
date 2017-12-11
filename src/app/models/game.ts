@@ -1,11 +1,18 @@
 import {Speler} from './speler';
 
+export enum Statuses {
+  setup = 'setup',
+  gameon = 'gameon',
+  played = 'played'
+}
+
 export class Game {
   public tijdslimietOpties: number[] = [10, 15, 20, 25, 30];
   public puntenPerGameOpties: number[] = [301, 501];
   public spelers: Speler[];
   public puntenPerGame: number;
   public tijdslimiet: number;
+  public status: Statuses;
 
   public shuffleSpelers() {
     let i = 0;

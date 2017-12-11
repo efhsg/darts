@@ -2,7 +2,9 @@
   <div fxShow="false" fxShow.gt-sm="true" fxFlex.md="25%" fxFlex.gt-md="35%"></div>
   <div fxShow="true" fxFlex="100%" fxFlex.md="50%" fxFlex.gt-md="30%">
     <mat-toolbar color="primary">
-      <span>Darts Scorekeeper {{title ? ' - ' + title : ''}}</span><!--<app-timer></app-timer>-->
+      <span>Darts&nbsp;</span> <span *ngIf="showSpel()">{{game.puntenPerGame}}</span>
+      <span *ngIf="showSetup()">{{game.status}}</span>
+      <span><app-timer [statusObvervable]="statusObvervable" *ngIf="showSpel()"></app-timer></span>
       <span class="example-spacer"></span>
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>more_vert</mat-icon>
@@ -15,7 +17,7 @@
       </mat-menu>
     </mat-toolbar>
     <app-setup *ngIf="showSetup()" [game]="game" (done)="setupDone()"></app-setup>
-    <app-spel *ngIf="showSpel()" [game]="game"></app-spel>
+    <app-spel *ngIf="showSpel()" [game]="game" (done)="gameDone()"></app-spel>
   </div>
   <div fxShow="false" fxShow.gt-sm="true" fxFlex.md="50%" fxFlex.gt-md="35%"></div>
 </div>

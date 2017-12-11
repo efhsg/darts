@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {Subject} from 'rxjs/Subject';
+import {Statuses} from '../models/game';
 
 @Component({
   selector: 'app-timer',
@@ -9,29 +10,38 @@ import {Subject} from 'rxjs/Subject';
 })
 export class TimerComponent implements OnInit {
 
+  @Input() statusObvervable: Observable<Statuses>;
   protected timer: Observable<string>;
-
-  public counter$: Subject<number> = new Subject<number>();
-
-  constructor() {
-    this.counter$
-      .scan((acc: number, current: number): number => acc + current)
-      .map((value: number): string => `Som : ${value}`)
-      .subscribe((click) => console.log(click));
-  }
+  private time: string;
 
   ngOnInit() {
+    this.startTimer();
+    this.statusObvervable.subscribe(
+      {
+        next: (v) => {
+          if (v === Statuses.played) {
+            this.stopTimer();
+          }
+        }
+      }
+    );
+  }
+
+  private startTimer() {
     this.timer = Observable.interval(1000)
       .map((seconds => {
           const sec = seconds % 60;
           const min = ((seconds - sec) / 60) % 60;
           const hour = (seconds - (min * 60) - sec) / (60 * 60);
-          return (hour < 10 ? ('0' + hour) : hour) + ':' +
+          this.time = (hour < 10 ? ('0' + hour) : hour) + ':' +
             (min < 10 ? ('0' + min) : min) + ':' +
             (sec < 10 ? ('0' + sec) : sec);
+          return this.time;
         })
       );
   }
 
-
+  private stopTimer() {
+    this.timer = Observable.of(this.time);
+  }
 }

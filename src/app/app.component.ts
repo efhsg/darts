@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Game} from './models/game';
-import {Speler} from './models/speler';
-import {Spelstatus} from './spelstatus';
+import {Game, Statuses} from './models/game';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +10,8 @@ import {Spelstatus} from './spelstatus';
 
 export class AppComponent implements OnInit {
 
-  protected title: string;
-  protected spelstatus: Spelstatus;
   protected game: Game;
+  protected statusObvervable: Subject<Statuses> = new Subject<Statuses>();
 
   ngOnInit(): void {
     this.game = new Game();
@@ -21,21 +19,28 @@ export class AppComponent implements OnInit {
   }
 
   protected showSetup(): boolean {
-    return this.spelstatus === Spelstatus.setup;
+    return this.game.status === Statuses.setup;
   }
 
   protected showSpel(): boolean {
-    return this.spelstatus === Spelstatus.spel;
+    return (this.game.status === Statuses.gameon || this.game.status === Statuses.played);
   }
 
   public setupDone(): void {
-    this.spelstatus = Spelstatus.spel;
-    this.title = 'game on';
+    this.changeStatus(Statuses.gameon);
+  }
+
+  public gameDone(): void {
+    this.changeStatus(Statuses.played);
   }
 
   protected nieuwSpel() {
-    this.title = 'setup';
-    this.spelstatus = Spelstatus.setup;
+    this.changeStatus(Statuses.setup);
+  }
+
+  private changeStatus(status: Statuses) {
+    this.game.status = status;
+    this.statusObvervable.next(this.game.status);
   }
 
 }
