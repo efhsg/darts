@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-content>
-    <form [formGroup]="formMain" class="example-form">
+    <form [formGroup]="formMain" class="example-form" (keydown.enter)="$event.preventDefault()">
       <mat-card>
         <mat-card-title class="mat-card-title--sub">Spelers</mat-card-title>
         <div formArrayName="spelers" *ngFor="let speler of spelers.controls; let i=index;">
@@ -27,20 +27,13 @@
         <mat-card-content>
           <mat-form-field>
             <mat-select placeholder="Speltype" formControlName="puntenPerGame">
-              <mat-option *ngFor="let puntenPerGame of game.puntenPerGameOpties" [value]="puntenPerGame" >
+              <mat-option *ngFor="let puntenPerGame of game.puntenPerGameOpties" [value]="puntenPerGame">
                 {{ puntenPerGame }}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </mat-card-content>
         <mat-card-content>
-<!--          <mat-form-field>
-            <mat-select placeholder="Tijdslimiet (minuten)" formControlName="tijdslimiet">
-              <mat-option *ngFor="let tijdslimietOption of game.tijdslimietOpties" [value]="tijdslimietOption" >
-                {{ tijdslimietOption }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>-->
           <section class="example-section">
             <mat-slide-toggle formControlName="willekeurigeVolgorde">Speel in willekeurige volgorde</mat-slide-toggle>
           </section>
