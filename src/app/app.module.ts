@@ -5,18 +5,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {SetupComponent} from './setup/setup.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
-  MatButtonModule,
-  MatCardModule,
-  MatExpansionModule,
-  MatFormFieldModule,
-  MatGridListModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatRadioModule,
-  MatSelectModule,
-  MatSlideToggleModule,
-  MatSnackBarModule,
+  MatButtonModule, MatCardModule, MatExpansionModule, MatFormFieldModule, MatGridListModule, MatIconModule,
+  MatInputModule, MatMenuModule, MatRadioModule, MatSelectModule, MatSlideToggleModule, MatSnackBarModule,
   MatToolbarModule
 } from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -24,6 +14,8 @@ import {SpelComponent} from './spel/spel.component';
 import {TimerComponent} from './timer/timer.component';
 import {OutshotCalculatorAbstract} from './services/interfaces/outshot.calculator';
 import {OutshotCalculator} from './services/implementations/outshot.calculator';
+import {SpelerServiceAbstract} from './services/interfaces/speler';
+import {SpelerServiceMock} from './services/mocks/speler';
 
 @NgModule({
   declarations: [
@@ -43,6 +35,7 @@ import {OutshotCalculator} from './services/implementations/outshot.calculator';
   ],
   providers: [
     {provide: OutshotCalculatorAbstract, useClass: OutshotCalculator},
+    {provide: SpelerServiceAbstract, useClass: SpelerServiceMock},
   ],
   bootstrap: [AppComponent]
 })

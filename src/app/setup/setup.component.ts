@@ -4,6 +4,7 @@ import {isNullOrUndefined} from 'util';
 import {Game} from '../models/game';
 import {Speler} from '../models/speler';
 import {OutshotCalculatorAbstract} from '../services/interfaces/outshot.calculator';
+import {SpelerServiceAbstract} from '../services/interfaces/speler';
 
 @Component({
   selector: 'app-setup',
@@ -16,7 +17,7 @@ export class SetupComponent implements OnInit {
   @Output() done = new EventEmitter();
 
   protected formMain: FormGroup;
-  private aantalSpelersDefault = 2;
+  private aantalSpelersDefault = 1;
 
   protected validationMessages = {
     'naam': {
@@ -32,16 +33,18 @@ export class SetupComponent implements OnInit {
   }
 
   constructor(protected formBuilder: FormBuilder,
-              protected outshotCalculator: OutshotCalculatorAbstract) {
+              protected outshotCalculator: OutshotCalculatorAbstract,
+              protected spelerServiceAbstract: SpelerServiceAbstract) {
   }
 
   ngOnInit() {
+    console.log(this.spelerServiceAbstract.fetchAll());
     if (isNullOrUndefined(this.game.spelers)) {
       this.game.spelers = [
-        new Speler(this.outshotCalculator, this.game.puntenPerGame, 'Speler 1'),
-        new Speler(this.outshotCalculator, this.game.puntenPerGame, 'Speler 2')
+        new Speler(this.outshotCalculator, this.game.puntenPerGame, '')
       ];
     }
+    console.log(this.game.spelers);
     this.buildForm();
     this.setFormValues();
     this.addFormEvents();
