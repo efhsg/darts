@@ -38,12 +38,35 @@ export class Speler {
       checkouts[i] = checkouts[i].filter((worpScore) => Number(worpScore));
     }
 
+    // checkouts met minste aantal pijlen eerst, daarna de checkout met meeste singles, daarna checkout met beste dubbel
     checkouts = checkouts.sort((a, b) => {
-      return a.length > b.length ? 1 : -1;
+      return a.length - b.length || this.aantalSingles(b.slice(0, -1)) - this.aantalSingles(a.slice(0, -1)) || this.kerenDeelbaarDoorTwee(b[b.length - 1]) - this.kerenDeelbaarDoorTwee(a[a.length - 1]);
     });
 
-    // ToDo: selecteer beste checkout van alle mogelijke checkouts
     return checkouts[0];
+  }
+
+  private static aantalSingles(scores: number[]) {
+    let aantalSingles = 0;
+    for (let i = 0; i < scores.length; i++) {
+      if (this.isSingle(scores[i])) {
+        aantalSingles++;
+      }
+    }
+    return aantalSingles;
+  }
+
+  private static isSingle(score: number) {
+    return score <= 20 && score >= 1;
+  }
+
+  private static kerenDeelbaarDoorTwee(score: number): number {
+    let kerenGedeeldDoorTwee = 0;
+    while (score > 2 && score % 2 === 0) {
+      score /= 2;
+      kerenGedeeldDoorTwee++;
+    }
+    return kerenGedeeldDoorTwee;
   }
 
   private static isUitTeGooien(score: number): boolean {
@@ -59,17 +82,17 @@ export class Speler {
       }
     }
 
-    checkoutAfkorting += Speler.scoreWorpAfkorting(checkout[checkout.length - 1], true);
+    checkoutAfkorting += Speler.scoreWorpAfkorting(checkout[checkout.length - 1]);
 
     return checkoutAfkorting;
   }
 
-  private static scoreWorpAfkorting(score: number, uitTeGooien?: boolean): string {
-    if (score > 180) {
+  private static scoreWorpAfkorting(score: number): string {
+    if (score > 60 || score < 1) {
       return '';
     }
 
-    if (uitTeGooien) {
+    if (this.isUitTeGooien(score)) {
       if (score === 50) {
         return 'BE'; // Bulls-eye
       }
@@ -78,10 +101,6 @@ export class Speler {
         return 'D' + (score / 2).toString(); // D = double
       }
     } else {
-      if (score % 3 === 0) {
-        return 'T' + (score / 3).toString(); // T = triple
-      }
-
       if (score === 50) {
         return 'BE'; // Bulls-eye
       }
@@ -90,12 +109,16 @@ export class Speler {
         return 'SB'; // Single-bull
       }
 
-      if (score % 2 === 0) {
+      if (score < 20) {
+        return score.toString();
+      }
+
+      if (score % 2 === 0 && score <= 40) {
         return 'D' + (score / 2).toString(); // D = double
       }
 
-      if (score < 20) {
-        return score.toString();
+      if (score % 3 === 0 && score <= 60) {
+        return 'T' + (score / 3).toString(); // T = triple
       }
     }
 
@@ -118,6 +141,7 @@ export class Speler {
 
           score = bordScores[i] + bordScores[j] + bordScores[k];
 
+          // Geen bestaande checkouts voor deze score. Prepareer met een lege array
           if (typeof checkouts.get(score) === 'undefined') {
             checkouts.set(score, []);
           }
