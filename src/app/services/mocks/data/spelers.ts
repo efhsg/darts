@@ -8,5 +8,6 @@ export const SPELERS: Speler[] =
     <Speler> {'naam': 'Chef'},
     <Speler> {'naam': 'Erwin'},
     <Speler> {'naam': 'Jeroen'},
+    <Speler> {'naam': 'Marc-Jan'},
     <Speler> {'naam': 'Pascal'}
   ];

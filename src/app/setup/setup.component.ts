@@ -19,6 +19,9 @@ export class SetupComponent implements OnInit {
   protected formMain: FormGroup;
   private aantalSpelersDefault = 1;
 
+  protected spelersLijst: Speler[];
+  protected spelersLijstReady = false;
+
   protected validationMessages = {
     'naam': {
       'required': 'Vul een naam in',
@@ -38,13 +41,12 @@ export class SetupComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.spelerServiceAbstract.fetchAll());
+    this.initSpelersLijst();
     if (isNullOrUndefined(this.game.spelers)) {
       this.game.spelers = [
         new Speler(this.outshotCalculator, this.game.puntenPerGame, '')
       ];
     }
-    console.log(this.game.spelers);
     this.buildForm();
     this.setFormValues();
     this.addFormEvents();
@@ -68,6 +70,15 @@ export class SetupComponent implements OnInit {
   }
 
   private addFormEvents() {
+  }
+
+  private initSpelersLijst(): void {
+    this.spelerServiceAbstract.fetchAll().subscribe(
+      (spelersLijst) => {
+        this.spelersLijst = spelersLijst;
+        this.spelersLijstReady = true;
+      }
+    );
   }
 
   private addSpelers() {
