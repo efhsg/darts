@@ -3,7 +3,5 @@ export interface OutshotCalculatorInterface {
 }
 
 export abstract class OutshotCalculatorAbstract implements OutshotCalculatorInterface {
-  uitgooiOpties(puntenOver: number): string {
-    return null;
-  }
+  public abstract uitgooiOpties(puntenOver: number): string;
 }
