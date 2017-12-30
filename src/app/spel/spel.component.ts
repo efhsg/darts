@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Game} from '../models/game';
 import {MatSnackBar} from '@angular/material';
+import {Speler} from '../models/speler';
+import {Score} from '../models/score';
 
 @Component({
   selector: 'app-spel',
@@ -74,7 +76,7 @@ export class SpelComponent implements OnInit {
   }
 
   private doeActieNaAfsluitenBeurt() {
-    if (this.getActieveSpeler().puntenOver > 0) {
+    if (this.getActieveSpeler().puntenOver.value > 0) {
       this.volgendeSpeler();
     } else {
       this.gameAfgelopen = true;
@@ -83,37 +85,25 @@ export class SpelComponent implements OnInit {
   }
 
   private verwerkScore(): boolean {
-    const score = Number(this.keysPressed);
-    const puntenOver = this.game.spelers[this.actieveSpeler].puntenOver - score;
+    const score = new Score(Number(this.keysPressed));
     this.keysPressed = '';
-    if (this.validerenScore(score, puntenOver)) {
-      this.getActieveSpeler().puntenOver = puntenOver;
-      return true;
-    }
-    return false;
-  }
-
-  private getActieveSpeler() {
-    return this.game.spelers[this.actieveSpeler];
-  }
-
-  private validerenScore(score: number, puntenOver: number): boolean {
-    if (score > 180) {
-      this.openSnackBar('Een score van ' + score + ' ?', null);
+    if (!score.isValide()) {
+      this.openSnackBar(score.score + ' is geen valide score!');
       return false;
     }
-    if (puntenOver < 2 && puntenOver !== 0) {
-      this.openSnackBar('Je komt op ' + puntenOver + ' ?', null);
-      return false;
-    }
+    this.getActieveSpeler().gooit(score);
     return true;
+  }
+
+  private getActieveSpeler(): Speler {
+    return this.game.spelers[this.actieveSpeler];
   }
 
   private volgendeSpeler(): void {
     this.actieveSpeler = (this.actieveSpeler < this.game.spelers.length - 1) ? this.actieveSpeler + 1 : 0;
   }
 
-  private openSnackBar(message: string, action: string) {
+  private openSnackBar(message: string, action?: string) {
     this.snackBar.open(message, action, {
       duration: 2000,
     });

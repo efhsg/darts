@@ -3,8 +3,12 @@
     <mat-expansion-panel [expanded]="actieveSpeler === i" hideToggle="true" [disabled]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>{{speler.naam}}</mat-panel-title>
-        <mat-panel-description>{{speler.puntenOver}}</mat-panel-description>
-        <mat-panel-description *ngIf="!gameAfgelopen">{{speler.uitgooiOpties}}</mat-panel-description>
+        <mat-panel-description>
+          {{ speler.puntenOver | async }}
+        </mat-panel-description>
+        <mat-panel-description>
+          <app-checkout [score]="speler.puntenOver" *ngIf="!gameAfgelopen"></app-checkout>
+        </mat-panel-description>
       </mat-expansion-panel-header>
       <div *ngIf="!gameAfgelopen" class="score">Score: {{keysPressed}}</div>
       <div *ngIf="gameAfgelopen">Gewonnen!</div>

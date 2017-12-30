@@ -1,32 +1,21 @@
-import {OutshotCalculatorAbstract} from '../services/interfaces/outshot.calculator';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Score} from './score';
 
+@Injectable()
 export class Speler {
-  private _naam: string;
-  private _puntenOver: number;
+  public puntenOver: BehaviorSubject<number>;
 
-  constructor(private outshotCalculator: OutshotCalculatorAbstract, puntenOver: number, naam?: string) {
-    this.naam = naam ? naam : '';
-    this.puntenOver = puntenOver;
+  constructor(
+    private startScore: number,
+    public naam?: string,
+  ) {
+    this.puntenOver = <BehaviorSubject<number>>new BehaviorSubject(startScore);
   }
 
-  get naam(): string {
-    return this._naam;
+  public gooit(score: Score) {
+    if (this.puntenOver.value - score.score >= 0) {
+      this.puntenOver.next(this.puntenOver.value - score.score);
+    }
   }
-
-  set naam(value: string) {
-    this._naam = value;
-  }
-
-  get puntenOver(): number {
-    return this._puntenOver;
-  }
-
-  set puntenOver(value: number) {
-    this._puntenOver = value;
-  }
-
-  get uitgooiOpties(): string {
-    return this.outshotCalculator.uitgooiOpties(this.puntenOver);
-  }
-
 }
