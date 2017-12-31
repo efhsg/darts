@@ -40,9 +40,9 @@ export class SetupComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initSpelersLijst();
     this.buildForm();
     this.initGameSpelers();
-    this.initSpelersLijst();
     this.setFormValues();
     this.addFormEvents();
   }

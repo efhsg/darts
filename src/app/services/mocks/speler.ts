@@ -23,6 +23,9 @@ export class SpelerServiceMock extends SpelerServiceAbstract {
         this.spelers.push(<Speler>{'naam': speler.naam});
       }
     }
+    this.spelers.sort((links, rechts) => {
+      return (links.naam < rechts.naam) ? -1 : ((links.naam > rechts.naam) ? 1 : 0);
+    });
   }
 
   private getSpelersNamen(): String[] {
