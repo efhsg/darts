@@ -44,7 +44,7 @@ export class SetupComponent implements OnInit {
     this.initSpelersLijst();
     if (isNullOrUndefined(this.game.spelers)) {
       this.game.spelers = [
-        new Speler(this.outshotCalculator, this.game.puntenPerGame, '')
+        new Speler(this.game.puntenPerGame, '')
       ];
     }
     this.buildForm();
@@ -136,7 +136,7 @@ export class SetupComponent implements OnInit {
       this.game.puntenPerGame = this.formMain.get('puntenPerGame').value;
       this.game.spelers = [];
       this.spelers.controls.forEach((formControl) => {
-        this.game.spelers.push(new Speler(this.outshotCalculator, this.game.puntenPerGame, formControl.value.naam));
+        this.game.spelers.push(new Speler(this.game.puntenPerGame, formControl.value.naam));
       });
       if (this.formMain.get('willekeurigeVolgorde').value) {
         this.game.shuffleSpelers();

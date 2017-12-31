@@ -16,6 +16,7 @@ import {OutshotCalculatorAbstract} from './services/interfaces/outshot.calculato
 import {OutshotCalculator} from './services/implementations/outshot.calculator';
 import {SpelerServiceAbstract} from './services/interfaces/speler';
 import {SpelerServiceMock} from './services/mocks/speler';
+import {CheckoutComponent} from './checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import {SpelerServiceMock} from './services/mocks/speler';
     SetupComponent,
     SpelComponent,
     TimerComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
