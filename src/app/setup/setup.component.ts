@@ -17,7 +17,6 @@ export class SetupComponent implements OnInit {
   @Output() done = new EventEmitter();
 
   protected formMain: FormGroup;
-  private aantalSpelersDefault = 1;
 
   protected spelersLijst: Speler[];
   protected spelersLijstReady = false;
@@ -41,23 +40,28 @@ export class SetupComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initSpelersLijst();
-    if (isNullOrUndefined(this.game.spelers)) {
-      this.game.spelers = [
-        new Speler(this.game.puntenPerGame, '')
-      ];
-    }
     this.buildForm();
+    this.initGameSpelers();
+    this.initSpelersLijst();
     this.setFormValues();
     this.addFormEvents();
+  }
+
+  private initGameSpelers() {
+    if (isNullOrUndefined(this.game.spelers)) {
+      this.game.spelers = [];
+      this.addGameSpeler();
+    }
+  }
+
+  private addGameSpeler() {
+    this.game.spelers.push(new Speler(this.game.puntenPerGame, ''));
   }
 
   protected buildForm(): void {
     this.formMain = this.formBuilder.group({
       puntenPerGame: [501],
-      spelers: this.formBuilder.array([]
-      ),
-      tijdslimiet: [15],
+      spelers: this.formBuilder.array([]),
       willekeurigeVolgorde: true,
     });
   }
@@ -82,14 +86,8 @@ export class SetupComponent implements OnInit {
   }
 
   private addSpelers() {
-    if (this.game.spelers.length > 0) {
-      for (const speler of this.game.spelers) {
-        this.addSpeler(speler.naam);
-      }
-    } else {
-      for (let i = 0; i < this.aantalSpelersDefault; i++) {
-        this.addSpeler();
-      }
+    for (const speler of this.game.spelers) {
+      this.addSpeler(speler.naam);
     }
   }
 
@@ -100,12 +98,11 @@ export class SetupComponent implements OnInit {
   protected buildSpeler(naam?: string): FormGroup {
     return this.formBuilder.group(
       {
-        naam: [naam, Validators.required]
+        naam: [naam]
       });
   }
 
   protected addSpeler(naam?: string): void {
-    naam = naam ? naam : 'Speler ' + (this.spelers.length + 1);
     this.spelers.push(this.buildSpeler(naam));
   }
 
@@ -132,6 +129,7 @@ export class SetupComponent implements OnInit {
   }
 
   protected next(): void {
+    this.setValidations();
     if (this.formMain.valid) {
       this.game.puntenPerGame = this.formMain.get('puntenPerGame').value;
       this.game.spelers = [];
@@ -141,6 +139,7 @@ export class SetupComponent implements OnInit {
       if (this.formMain.get('willekeurigeVolgorde').value) {
         this.game.shuffleSpelers();
       }
+      this.spelerServiceAbstract.save(this.game.spelers);
       this.done.emit();
     } else {
       this.showFormerrors();
@@ -150,6 +149,14 @@ export class SetupComponent implements OnInit {
   protected showFormerrors() {
     Object.keys(this.formMain.controls).forEach(key => {
       SetupComponent.markIfInvalid(this.formMain.get(key));
+    });
+  }
+
+  private setValidations() {
+    this.spelers.controls.forEach((control, index) => {
+      control.get('naam').setValidators([Validators.required]);
+      control.get('naam').updateValueAndValidity();
+      control.get('naam').markAsTouched();
     });
   }
 

@@ -5,4 +5,6 @@ export abstract class SpelerServiceAbstract {
   public abstract fetchAll(): Observable<Speler[]>;
 
   public abstract fetch(naam: string): Observable<Speler>;
+
+  public abstract save(spelers: Speler[]): void;
 }

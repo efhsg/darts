@@ -5,9 +5,9 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {SetupComponent} from './setup/setup.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
-  MatButtonModule, MatCardModule, MatExpansionModule, MatFormFieldModule, MatGridListModule, MatIconModule,
-  MatInputModule, MatMenuModule, MatRadioModule, MatSelectModule, MatSlideToggleModule, MatSnackBarModule,
-  MatToolbarModule
+  MatAutocompleteModule, MatButtonModule, MatCardModule, MatExpansionModule, MatFormFieldModule,
+  MatGridListModule, MatIconModule, MatInputModule, MatMenuModule, MatRadioModule, MatSelectModule,
+  MatSlideToggleModule, MatSnackBarModule, MatToolbarModule
 } from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SpelComponent} from './spel/spel.component';
@@ -33,7 +33,7 @@ import {CheckoutComponent} from './checkout/checkout.component';
     BrowserAnimationsModule,
     MatButtonModule, MatCardModule, MatMenuModule, MatToolbarModule, MatIconModule,
     MatInputModule, MatFormFieldModule, MatSelectModule, MatRadioModule, MatSnackBarModule, MatSlideToggleModule,
-    MatExpansionModule, MatGridListModule
+    MatExpansionModule, MatGridListModule, MatAutocompleteModule
   ],
   providers: [
     {provide: OutshotCalculatorAbstract, useClass: OutshotCalculator},

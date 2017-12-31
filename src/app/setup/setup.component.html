@@ -6,11 +6,12 @@
         <div formArrayName="spelers" *ngFor="let speler of spelers.controls; let i=index;">
           <div formGroupName="{{i}}">
             <mat-form-field>
-              <mat-select formControlName="naam" placeholder="Naam">
+              <input type="text" matInput formControlName="naam" placeholder="Naam" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" isOpen="false" showPanel="false">
                 <mat-option *ngFor="let spelersLijstItem of spelersLijst" [value]="spelersLijstItem.naam">
                   {{ spelersLijstItem.naam }}
                 </mat-option>
-              </mat-select>
+              </mat-autocomplete>
             </mat-form-field>
             <button mat-icon-button color="primary" (click)="deleteSpeler(i)" *ngIf="spelers.length > 1">
               <mat-icon>delete</mat-icon>
