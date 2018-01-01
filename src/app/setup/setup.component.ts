@@ -71,6 +71,9 @@ export class SetupComponent implements OnInit {
     if (!isNullOrUndefined(this.game.puntenPerGame)) {
       this.formMain.patchValue({puntenPerGame: this.game.puntenPerGame});
     }
+    if (!isNullOrUndefined(this.game.willekeurigeVolgorde)) {
+      this.formMain.patchValue({willekeurigeVolgorde: this.game.willekeurigeVolgorde});
+    }
   }
 
   private addFormEvents() {
@@ -132,6 +135,7 @@ export class SetupComponent implements OnInit {
     this.setValidations();
     if (this.formMain.valid) {
       this.game.puntenPerGame = this.formMain.get('puntenPerGame').value;
+      this.game.willekeurigeVolgorde = this.formMain.get('willekeurigeVolgorde').value;
       this.game.spelers = [];
       this.spelers.controls.forEach((formControl) => {
         this.game.spelers.push(new Speler(this.game.puntenPerGame, formControl.value.naam));
