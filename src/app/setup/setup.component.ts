@@ -164,4 +164,21 @@ export class SetupComponent implements OnInit {
     });
   }
 
+  protected getSpelersLijst(i: number): Speler[] {
+    this.getSpelersAlreadySelected(i);
+    return this.spelersLijst;
+  }
+
+  private getSpelersAlreadySelected(i: number) {
+    const spelersSelected = [];
+    this.spelers.controls.forEach((control, index) => {
+        if (index !== i) {
+          console.log(control);
+          // spelersSelected.push(<Speler>control.get('speler').value);
+        }
+      }
+    );
+    return spelersSelected;
+  }
+
 }
